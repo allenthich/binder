@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import Canvas from './Canvas';
+import { UiWidget, Button } from './ui/UInterfaceWidget';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <Canvas>
-  </Canvas>,
+  <UiWidget buttons={<Button onClick={() => console.log('btnclick')}>Button</Button>}>
+    <Canvas />
+  </UiWidget>,
   document.getElementById('root')
 );
 

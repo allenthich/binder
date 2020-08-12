@@ -46,6 +46,7 @@ interface CanvasProps {
   color?: string;
 	background?: string;
 }
+
 type CanvasState = {
   engine: DiagramEngine;
   model: DiagramModel;
