@@ -2,15 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import Canvas from './Canvas';
-import { UiWidget, Button } from './ui/UInterfaceWidget';
-import SimpleMenu from './ui/Menu';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <UiWidget buttons={<SimpleMenu />}>
-    <Canvas />
-  </UiWidget>,
+  <App />,
   document.getElementById('root')
 );
 

@@ -2,11 +2,13 @@ import React from 'react';
 import styled from '@emotion/styled';
 import createEngine, { DiagramEngine, DiagramModel, DefaultNodeModel, DefaultLinkModel } from '@projectstorm/react-diagrams';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
+import Grid from '@material-ui/core/Grid';
 
 /**
  * Canvas Wrapper Container
  */
 const CanvasContainer = styled.div<{ color: string; background: string }>`
+  min-height: 100vh;
   height: 100%;
   background-color: rgb(60, 60, 60) !important;
   background-size: 50px 50px;
@@ -90,12 +92,14 @@ class Canvas extends React.Component<CanvasProps, CanvasState> {
 
   render () {
     return (
-      <CanvasContainer
-				background={this.props.background || 'rgb(60, 60, 60)'}
-				color={this.props.color || 'rgba(255,255,255, 0.05)'}>
-        <CanvasWidget engine={this.state.engine} />
-				{this.props.children}
-			</CanvasContainer>
+      <Grid item xs={12}>
+        <CanvasContainer
+          background={this.props.background || 'rgb(60, 60, 60)'}
+          color={this.props.color || 'rgba(255,255,255, 0.05)'}>
+          <CanvasWidget engine={this.state.engine} />
+          {this.props.children}
+        </CanvasContainer>
+      </Grid>
     );
   }
 }
