@@ -15,7 +15,9 @@ import Popper from '@material-ui/core/Popper';
 
 // TODO: Create class that contains classes setup
 
-const MenuDropdown = (props: any) => {
+export function MenuDropdown (props: any) {
+  let label: string = props.label || "file";
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -67,7 +69,7 @@ const MenuDropdown = (props: any) => {
         aria-haspopup="true"
         onClick={handleToggle}
       >
-        {props.name}
+        {label}
       </Button>
       <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
         {({ TransitionProps, placement }) => (
@@ -91,7 +93,7 @@ const MenuDropdown = (props: any) => {
   );
 }
 
-const MenuSection: FunctionComponent<any> = props => {
+const MenuSection: FunctionComponent<any> = (props: any) => {
   const useStyles = makeStyles({
     root: {
       border: '1px solid black;',
@@ -127,9 +129,9 @@ export function MenuBar () {
         className={classes.root}
       >
         <MenuSection>
-          <MenuDropdown name="file"/>
-          <MenuDropdown name="edit"/>
-          <MenuDropdown name="view"/>
+          <MenuDropdown label="file"/>
+          <MenuDropdown label="edit"/>
+          <MenuDropdown label="view"/>
         </MenuSection>
         <MenuSection />
         <MenuSection />

@@ -1,5 +1,5 @@
 import React from 'react';
-import Canvas from './Canvas';
+import { Canvas } from './Canvas';
 import { MenuBar } from './ui/MenuBar';
 import { Box, Grid, Container } from '@material-ui/core';
 import './App.css';
