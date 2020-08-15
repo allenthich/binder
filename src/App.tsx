@@ -4,7 +4,7 @@ import { MenuBar } from './ui/MenuBar';
 import { Box, Grid, Container } from '@material-ui/core';
 import './App.css';
 
-const App = () => (
+export const App = () => (
   <Grid
     container
     direction="column"
@@ -16,5 +16,3 @@ const App = () => (
     <Canvas />
   </Grid>
 );
-
-export default App;
