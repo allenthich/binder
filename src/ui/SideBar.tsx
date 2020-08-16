@@ -1,8 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Resizable } from 're-resizable';
+import { ResizableProps, Resizable } from 're-resizable';
 
-export interface ResizableSideBarProps {
+export interface ResizableSideBarProps extends ResizableProps {
   /**
    * Any nested children elements
    */
@@ -10,21 +10,19 @@ export interface ResizableSideBarProps {
   /**
    * Whether to enable vertical resizing
    */
-  enableVertical?: boolean;
+  verticalResizing?: boolean;
   /**
    * Whether to enable horizontal resizing
    */
-  enableHorizontal?: boolean;
+  horizontalResizing?: boolean;
   /**
    * Whether to enable corner resizing
    */
-  enableCorners?: boolean;
+  cornerResizing?: boolean;
 }
 
 export function ResizableSideBar (props: ResizableSideBarProps) {
-  let enableVertical = props.enableVertical || false
-  let enableHorizontal = props.enableHorizontal || false
-  let enableCorners = props.enableCorners || false
+  const { verticalResizing, horizontalResizing, cornerResizing, ...resizableProps } = { ...props }
 
   const useStyles = makeStyles({
     root: {
@@ -33,24 +31,21 @@ export function ResizableSideBar (props: ResizableSideBarProps) {
   });
   const classes = useStyles();
 
-  let permissions = {
-    top:          enableVertical,
-    right:        enableHorizontal,
-    bottom:       enableVertical,
-    left:         enableHorizontal,
-    topRight:     enableCorners,
-    bottomRight:  enableCorners,
-    bottomLeft:   enableCorners,
-    topLeft:      enableCorners,
+  const permissions = {
+    top:          verticalResizing || false,
+    right:        horizontalResizing || false,
+    bottom:       verticalResizing || false,
+    left:         horizontalResizing || false,
+    topRight:     cornerResizing || false,
+    bottomRight:  cornerResizing || false,
+    bottomLeft:   cornerResizing || false,
+    topLeft:      cornerResizing || false,
   }
 
   return (
     <Resizable
+      {...resizableProps}
       className={classes.root}
-      defaultSize={{
-        width:320,
-        height:200,
-      }}
       enable={permissions}
     >
       {props.children}

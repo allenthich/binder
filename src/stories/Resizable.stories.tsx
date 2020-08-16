@@ -5,15 +5,25 @@ import { Story, Meta } from '@storybook/react/types-6-0';
 import { ResizableSideBar, ResizableSideBarProps } from '../ui/SideBar';
 
 export default {
-  title: 'UI/Resizable',
+  title: 'UI',
   component: ResizableSideBar,
+  argTypes: {
+    minWidth: {
+      control: 'text'
+    },
+    minHeight: {
+      control: 'text'
+    },
+  },
 } as Meta;
 
 const Template: Story<ResizableSideBarProps> = (args) => <ResizableSideBar {...args} />;
 
-export const SideBar = Template.bind({});
-SideBar.args = {
-  enableVertical: true,
-  enableHorizontal: true,
-  enableCorners: true,
+export const ResizableSidebar = Template.bind({});
+ResizableSidebar.args = {
+  minWidth: '100px',
+  minHeight: '100px',
+  verticalResizing: true,
+  horizontalResizing: true,
+  cornerResizing: true,
 };
