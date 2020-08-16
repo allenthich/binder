@@ -1,6 +1,5 @@
-import React from 'react';
 import { Canvas } from '../Canvas';
-import { MenuDropdown, MenuBar} from '../ui/MenuBar';
+import { MenuDropdown, MenuBar } from '../ui/MenuBar';
 
 export default {
   title: 'UI',
@@ -9,5 +8,5 @@ export default {
 export {
   Canvas,
   MenuDropdown, 
-  MenuBar
+  MenuBar,
 };
