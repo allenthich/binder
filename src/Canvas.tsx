@@ -22,9 +22,11 @@ export function Canvas (props?: any) {
     root: (props: { color: string; background: string }) => ({
       minHeight: '100vh',
       height: '100%',
+      minWidth: '30%',
+      width: '100%',
       backgroundColor: 'rgb(60, 60, 60) !important',
       backgroundSize: '50px 50px',
-      display: 'flex',
+      // display: 'flex',
       background: props.background,
       '> *': {
         height: '100%',
@@ -64,11 +66,11 @@ export function Canvas (props?: any) {
   });
 
   return (
-    <Grid item xs={12}>
-      <div className={classes.root}>
-        <CanvasContainer />
-      </div>
-    </Grid>
+    <div
+      className={classes.root}
+    >
+      <CanvasContainer />
+    </div>
   );
 }
 
