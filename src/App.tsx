@@ -1,7 +1,6 @@
 import React from 'react';
 import { Canvas } from './Canvas';
 import { MenuBar } from './ui/MenuBar';
-import './ui/MenuBar.css';
 import { Box, Grid, Container } from '@material-ui/core';
 import './App.css';
 import { ResizableSideBar, ResizableSideBarProps } from './ui/SideBar';
@@ -29,8 +28,8 @@ export const App = () => (
     >
       <ResizableSideBar
         className='menuBar'
-        defaultSize={{
-          width: '15%',
+        size={{
+          width: '140px',
           height: 'auto',
         }}
         enable={{ right: true }}
@@ -41,11 +40,11 @@ export const App = () => (
         Side Bar
         </div>
       </ResizableSideBar>
-      
+
       <Canvas />
 
       <ResizableSideBar
-        defaultSize={{
+        size={{
           width: '15%',
           height: 'auto',
         }}

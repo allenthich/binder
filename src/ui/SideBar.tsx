@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useLayoutEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { ResizableProps, Resizable, ResizeDirection  } from 're-resizable';
 
@@ -19,36 +19,22 @@ export interface ResizableSideBarProps extends ResizableProps {
    * Whether to enable corner resizing
    */
   cornerResizing?: boolean;
+  /**
+   * Side bar dimensions
+   */
+  size: {
+    width: string | number;
+    height: string | number;
+  }
 }
 
 export function ResizableSideBar (props: ResizableSideBarProps) {
-  const { verticalResizing, horizontalResizing, cornerResizing, ...resizableProps } = { ...props }
+  const { verticalResizing, horizontalResizing, cornerResizing, size, ...resizableProps } = { ...props }
   resizableProps.enable = resizableProps.enable || {}
 
   let targetRef = useRef<Resizable>(null);
-  const [display, setDisplay] = useState('none');
   const [collapsed, setCollapsed] = useState(false);
-
-  // useEffect(() => {
-  //   // Hide children
-  //   if (collapsed) {
-  //     targetRef.current.updateSize({
-  //       width: '1%',
-  //       height: 'auto',
-  //     })
-  //   } else {
-  //     targetRef.current.updateSize({
-  //       width: '50%',
-  //       height: 'auto',
-  //     })
-
-  //   }
-  //   // console.log('useEffect',targetRef.current )
-  //   // if (width < ) {
-  //   //   // Hide children if width is under threshold
-  //   //   setDisplay()
-  //   // }
-  // }, [collapsed]);
+  const [sizing, setSize] = useState(size);
 
   const useStyles = makeStyles({
     root: {
@@ -68,6 +54,9 @@ export function ResizableSideBar (props: ResizableSideBarProps) {
     topLeft:      resizableProps.enable.topLeft || cornerResizing || false,
   }
 
+  /**
+   * Check for initial collapse based on sidebar width 
+   */
   const checkForCollapse = (
     event: MouseEvent | TouchEvent,
     direction: ResizeDirection ,
@@ -77,35 +66,52 @@ export function ResizableSideBar (props: ResizableSideBarProps) {
       height: number;
     }
   ) => {
-    console.log(refToElement.style.width)
-    const belowMinWidth = parseFloat(refToElement.style.width) <= 5
-    if ((belowMinWidth && !collapsed)
-      || (!belowMinWidth && collapsed)
-    ) {
-      // Toggle collapsed
+    console.log(refToElement.offsetWidth)
+    const elWidth = refToElement.offsetWidth
+    const belowMinWidth = elWidth <= 70
+    // Toggle collapsed
+    if ((belowMinWidth && !collapsed) || (!belowMinWidth && collapsed)) {
       setCollapsed(!collapsed)
-      // Hide children
-      // if (collapsed) {
-      //   targetRef.current.updateSize({
-      //     width: '1%',
-      //     height: 'auto',
-      //   })
-      // } else {
-      //   targetRef.current.updateSize({
-      //     width: '50%',
-      //     height: 'auto',
-      //   })
-
-      // }
     }
+
+    let newWidth = elWidth
+    // Check for intentional uncollapse
+    if (belowMinWidth) {
+      newWidth = 2
+    } else if (elWidth > 70 && elWidth < 140) {
+      newWidth = 140
+    }
+    targetRef.current.updateSize({
+      width: newWidth,
+      height: 'auto',
+    })
+  }
+
+  /**
+   * Set sidebar width based on whether it is collapsed
+   */
+  const setFinalWidth = (
+    event: MouseEvent | TouchEvent,
+    direction: ResizeDirection ,
+    refToElement: HTMLElement,
+    delta: {
+      width: number;
+      height: number;
+    }) => {
+    setSize({
+      width: collapsed ? 2 : refToElement.style.width,
+      height: 'auto',
+    });
   }
 
   return (
     <Resizable
       {...resizableProps}
+      size={sizing}
       className={`${classes.root} ${props.className}`}
       enable={permissions}
       onResize={checkForCollapse}
+      onResizeStop={setFinalWidth}
       ref={targetRef}
     >
       {!collapsed && props.children}
