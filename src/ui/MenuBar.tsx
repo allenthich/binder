@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, SyntheticEvent } from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -12,13 +12,21 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
+import classes from '*.module.css';
 
 // TODO: Create class that contains classes setup
 
 export function MenuDropdown (props: any) {
-  let label: string = props.label || "file";
+  let label: string = props.label || "dropdown";
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const useStyles = makeStyles({
+    root: {
+      zIndex: 1,
+    },
+  });
+  const classes = useStyles();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -58,24 +66,46 @@ export function MenuDropdown (props: any) {
       anchorRef.current!.focus();
     }
 
+    if (!props.active) {
+      console.log('closing ', label, ' because inactive')
+      setOpen(false);
+    }
+
     prevOpen.current = open;
-  }, [open]);
+  }, [open, props.active]);
+
+  const handleInteraction = (e: React.MouseEvent) => {
+    props.onClick(e)
+    setOpen(!open)
+  }
+
+  /**
+   * Check if user is interacted with menu dropdown
+   */
+  const handleActiveDropdown = () => {
+    if (props.reveal) {
+      props.setActive(label)
+      setOpen(true)
+    }
+  }
 
   return (
-    <div>
+    <div
+      className={classes.root}
+    >
       <Button
         ref={anchorRef}
         aria-controls={open ? 'menu-list-grow' : undefined}
         aria-haspopup="true"
-        onClick={handleToggle}
+        onClick={handleInteraction}
+        onMouseEnter={handleActiveDropdown}
       >
         {label}
       </Button>
-      <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
-        {({ TransitionProps, placement }) => (
+      <Popper open={open} anchorEl={anchorRef.current} role={undefined} placement='bottom-start' transition disablePortal>
+        {({ TransitionProps }) => (
           <Grow
             {...TransitionProps}
-            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
           >
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
@@ -111,13 +141,24 @@ const MenuSection: FunctionComponent<any> = (props: any) => {
 }
 
 export function MenuBar () {
+  const [activeDropdown, setActiveDropdown] = React.useState(null);
+  const [revealDropdown, setRevealDropdown] = React.useState(false); // reveal, active, expose, interacting
   const useStyles = makeStyles({
     root: {
       border: '1px solid black;',
       width: '100%',
+      zIndex: 1,
     },
   });
   const classes = useStyles();
+
+  const setActiveDropdownMenu = (e: React.MouseEvent) => {
+    e.persist()
+    setRevealDropdown(!revealDropdown)
+    setActiveDropdown(e.target.innerText)
+  }
+
+  // If all menus have closed, setRevealDropdown to false
 
   return (
     <Grid item xs={12}>
@@ -129,9 +170,30 @@ export function MenuBar () {
         className={classes.root}
       >
         <MenuSection>
-          <MenuDropdown label="file"/>
-          <MenuDropdown label="edit"/>
-          <MenuDropdown label="view"/>
+          <MenuDropdown
+            label="FILE"
+            active={activeDropdown === "FILE"}
+            setActive={setActiveDropdown}
+            reveal={revealDropdown}
+            setReveal={setRevealDropdown}
+            onClick={(e: React.MouseEvent) => setActiveDropdownMenu(e)}
+          />
+          <MenuDropdown
+            label="EDIT"
+            active={activeDropdown === "EDIT"}
+            setActive={setActiveDropdown}
+            reveal={revealDropdown}
+            setReveal={setRevealDropdown}
+            onClick={(e: React.MouseEvent) => setActiveDropdownMenu(e)}
+          />
+          <MenuDropdown
+            label="VIEW"
+            active={activeDropdown === "VIEW"}
+            setActive={setActiveDropdown}
+            reveal={revealDropdown}
+            setReveal={setRevealDropdown}
+            onClick={(e: React.MouseEvent) => setActiveDropdownMenu(e)}
+          />
         </MenuSection>
         <MenuSection />
         <MenuSection />
