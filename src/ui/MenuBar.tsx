@@ -20,8 +20,6 @@ import _ from 'lodash';
 export function MenuDropdown (props: any) {
   let label: string = props.label || "dropdown";
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
   const useStyles = makeStyles({
     root: {
       zIndex: 1,
@@ -29,21 +27,9 @@ export function MenuDropdown (props: any) {
   });
   const classes = useStyles();
 
-  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
-
   // const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
-
-  // const handleToggle = () => {
-  //   setOpen((prevOpen) => !prevOpen);
-  // };
 
   const handleClose = (event: React.MouseEvent<EventTarget>) => {
     if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
@@ -65,18 +51,10 @@ export function MenuDropdown (props: any) {
     }
   }
 
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
   React.useEffect(() => {
-    console.log('MenuDropdown useEffect', prevOpen.current, open)
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current!.focus();
-    }
-
+    console.log('MenuDropdown useEffect')
     setOpen(props.active)
-
-    prevOpen.current = open;
-  }, [open, props.active]);
+  }, [props.active]);
 
   const handleInteraction = (e: React.MouseEvent) => {
     props.onClick(e)
@@ -87,7 +65,6 @@ export function MenuDropdown (props: any) {
    * Check if user is interacted with menu dropdown
    */
   const handleActiveDropdown = () => {
-    console.log('handleActiveDropdown', props.dpState)
     const dropdownActivated = Object.values(props.dpState).some(active => active === true)
     if (dropdownActivated) {
       const newDpState = _.mapValues(props.dpState, () => false);
@@ -159,10 +136,6 @@ export function MenuBar () {
     "EDIT": false,
     "VIEW": false,
   });
-
-  React.useEffect(() => {
-    console.log('menubar useeffect')
-  }, [dpState])
 
   const useStyles = makeStyles({
     root: {
