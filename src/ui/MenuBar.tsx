@@ -13,6 +13,7 @@ import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import classes from '*.module.css';
+import _ from 'lodash';
 
 // TODO: Create class that contains classes setup
 
@@ -28,9 +29,9 @@ export function MenuDropdown (props: any) {
   });
   const classes = useStyles();
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
   // const handleClose = () => {
   //   setAnchorEl(null);
@@ -40,9 +41,9 @@ export function MenuDropdown (props: any) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
+  // const handleToggle = () => {
+  //   setOpen((prevOpen) => !prevOpen);
+  // };
 
   const handleClose = (event: React.MouseEvent<EventTarget>) => {
     if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
@@ -50,11 +51,16 @@ export function MenuDropdown (props: any) {
     }
 
     setOpen(false);
+    props.setDpState({
+      ...props.dpState,
+      [label]: false
+    })
   };
 
   function handleListKeyDown(event: React.KeyboardEvent) {
     if (event.key === 'Tab') {
       event.preventDefault();
+      console.log('handleListKeyDown')
       setOpen(false);
     }
   }
@@ -62,14 +68,12 @@ export function MenuDropdown (props: any) {
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
+    console.log('MenuDropdown useEffect', prevOpen.current, open)
     if (prevOpen.current === true && open === false) {
       anchorRef.current!.focus();
     }
 
-    if (!props.active) {
-      console.log('closing ', label, ' because inactive')
-      setOpen(false);
-    }
+    setOpen(props.active)
 
     prevOpen.current = open;
   }, [open, props.active]);
@@ -83,9 +87,15 @@ export function MenuDropdown (props: any) {
    * Check if user is interacted with menu dropdown
    */
   const handleActiveDropdown = () => {
-    if (props.reveal) {
-      props.setActive(label)
+    console.log('handleActiveDropdown', props.dpState)
+    const dropdownActivated = Object.values(props.dpState).some(active => active === true)
+    if (dropdownActivated) {
+      const newDpState = _.mapValues(props.dpState, () => false);
       setOpen(true)
+      props.setDpState({
+        ...newDpState,
+        [label]: true
+      })
     }
   }
 
@@ -140,9 +150,20 @@ const MenuSection: FunctionComponent<any> = (props: any) => {
   );
 }
 
+interface DropdownState {
+  [key: string]: Boolean;
+ } 
 export function MenuBar () {
-  const [activeDropdown, setActiveDropdown] = React.useState(null);
-  const [revealDropdown, setRevealDropdown] = React.useState(false); // reveal, active, expose, interacting
+  const [dpState, setDpState] = React.useState<DropdownState>({
+    "FILE": false,
+    "EDIT": false,
+    "VIEW": false,
+  });
+
+  React.useEffect(() => {
+    console.log('menubar useeffect')
+  }, [dpState])
+
   const useStyles = makeStyles({
     root: {
       border: '1px solid black;',
@@ -152,13 +173,28 @@ export function MenuBar () {
   });
   const classes = useStyles();
 
-  const setActiveDropdownMenu = (e: React.MouseEvent) => {
-    e.persist()
-    setRevealDropdown(!revealDropdown)
-    setActiveDropdown(e.target.innerText)
+  const closeDropdowns = () => {
+    // Set other dropdowns to close
+    const newDpState = _.mapValues(dpState, () => false);
+    setDpState(newDpState)
   }
 
-  // If all menus have closed, setRevealDropdown to false
+  /**
+   * Resets dropdown state before toggling a dropdown
+   */
+  const toggleDropdown = (e: React.MouseEvent) => {
+    e.persist()
+    let dropdownName = e.target.innerText
+
+    // Set other dropdowns to close
+    closeDropdowns()
+
+    // Set active dropdown to open
+    setDpState({
+      ...dpState,
+      [dropdownName]: !dpState[dropdownName]
+    })
+  }
 
   return (
     <Grid item xs={12}>
@@ -170,29 +206,30 @@ export function MenuBar () {
         className={classes.root}
       >
         <MenuSection>
+          {/* TODO LOOP MENU OPTIONS AND SUBOPTIONS */}
           <MenuDropdown
             label="FILE"
-            active={activeDropdown === "FILE"}
-            setActive={setActiveDropdown}
-            reveal={revealDropdown}
-            setReveal={setRevealDropdown}
-            onClick={(e: React.MouseEvent) => setActiveDropdownMenu(e)}
+            active={dpState.FILE}
+            dpState={dpState}
+            setDpState={setDpState}
+            closeDropdowns={closeDropdowns}
+            onClick={(e: React.MouseEvent) => toggleDropdown(e)}
           />
           <MenuDropdown
             label="EDIT"
-            active={activeDropdown === "EDIT"}
-            setActive={setActiveDropdown}
-            reveal={revealDropdown}
-            setReveal={setRevealDropdown}
-            onClick={(e: React.MouseEvent) => setActiveDropdownMenu(e)}
+            active={dpState.EDIT}
+            dpState={dpState}
+            setDpState={setDpState}
+            closeDropdowns={closeDropdowns}
+            onClick={(e: React.MouseEvent) => toggleDropdown(e)}
           />
           <MenuDropdown
             label="VIEW"
-            active={activeDropdown === "VIEW"}
-            setActive={setActiveDropdown}
-            reveal={revealDropdown}
-            setReveal={setRevealDropdown}
-            onClick={(e: React.MouseEvent) => setActiveDropdownMenu(e)}
+            active={dpState.VIEW}
+            dpState={dpState}
+            setDpState={setDpState}
+            closeDropdowns={closeDropdowns}
+            onClick={(e: React.MouseEvent) => toggleDropdown(e)}
           />
         </MenuSection>
         <MenuSection />
