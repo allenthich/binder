@@ -1,5 +1,5 @@
 import React from 'react';
-import { MenuBar } from '../ui/MenuBar';
+import { MenuBar } from './MenuBarWidget';
 
 export const HeaderWidget = (props: any) => {
   return (

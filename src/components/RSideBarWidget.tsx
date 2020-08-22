@@ -1,5 +1,5 @@
 import React from 'react';
-import { ResizableSideBar, ResizableSideBarProps } from '../ui/SideBar';
+import { ResizableSideBar, ResizableSideBarProps } from './UI/SideBar';
 
 export const RSideBarWidget = (props: ResizableSideBarProps) => {
   return (
