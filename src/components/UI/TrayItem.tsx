@@ -6,7 +6,7 @@ export interface TrayItemProps {
 	model: any;
 	color?: string;
 	name: string;
-	background: string;
+	background?: string;
 }
 
 export const TrayItem = (props: TrayItemProps) => {
