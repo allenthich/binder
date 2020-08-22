@@ -1,4 +1,4 @@
-import { Canvas } from '../Canvas';
+import { BodyWidget } from '../components/BodyWidget';
 import { MenuDropdown, MenuBar } from '../ui/MenuBar';
 
 export default {
@@ -6,7 +6,7 @@ export default {
 };
 
 export {
-  Canvas,
+  BodyWidget,
   MenuDropdown, 
   MenuBar,
 };

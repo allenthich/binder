@@ -22,7 +22,7 @@ export interface ResizableSideBarProps extends ResizableProps {
   /**
    * Side bar dimensions
    */
-  size: {
+  size?: {
     width: string | number;
     height: string | number;
   }
