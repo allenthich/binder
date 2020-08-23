@@ -16,9 +16,9 @@ export const BodyWidget = (props: any) => {
       minWidth: '30%',
       width: '100%',
       backgroundColor: 'rgb(60, 60, 60) !important',
-      backgroundSize: '50px 50px',
+      // backgroundSize: '50px 50px',
       display: 'flex',
-      background: props.background,
+      // background: props.background,
       '& > div:first-child': {
         height: '100%',
         minHeight: '100vh',
@@ -47,7 +47,7 @@ export const BodyWidget = (props: any) => {
         ${props.color} 76%,
         transparent 77%,
         transparent
-      )`
+      )`,
     }),
   });
   
@@ -76,29 +76,34 @@ export const BodyWidget = (props: any) => {
           height: '100%',
       }}>
         <div
+          id='canvasWrapper'
           className={canvasClasses.root}
           onDrop={(event) => {
             var data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
-            var nodesCount = _.keys(props.engine.getModel().getNodes()).length;
+            // debugger;
+            // var nodesCount = _.keys(props.engine.getModel().getNodes()).length;
 
-            var node: DefaultNodeModel = null;
-            if (data.type === 'in') {
-              node = new DefaultNodeModel('Node ' + (nodesCount + 1), 'rgb(192,255,0)');
-              node.addInPort('In');
-            } else {
-              node = new DefaultNodeModel('Node ' + (nodesCount + 1), 'rgb(0,192,255)');
-              node.addOutPort('Out');
-            }
-            var point = props.engine.getRelativeMousePoint(event);
-            node.setPosition(point);
-            props.engine.getModel().addNode(node);
-            props.forceUpdate();
+            // var node: DefaultNodeModel = null;
+            // if (data.type === 'in') {
+            //   node = new DefaultNodeModel('Node ' + (nodesCount + 1), 'rgb(192,255,0)');
+            //   node.addInPort('In');
+            // } else {
+            //   node = new DefaultNodeModel('Node ' + (nodesCount + 1), 'rgb(0,192,255)');
+            //   node.addOutPort('Out');
+            // }
+            // var point = props.engine.getRelativeMousePoint(event);
+            // node.setPosition(point);
+            // props.engine.getModel().addNode(node);
+            // props.forceUpdate();
+            // props.engine.repaint()
+            debugger;
+            props.engine.handleComponentDrop(event, data);
           }}
           onDragOver={(event) => {
             event.preventDefault();
           }}
         >
-          <CanvasWidget engine={props.engine} />
+          <CanvasWidget engine={props.engine.getEngine()} />
         </div>
       </div>
       <RSideBarWidget />

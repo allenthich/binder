@@ -94,3 +94,29 @@ body,
 	padding: 0;
 	margin: 0;
 }
+
+#canvasWrapper {
+  background-position-x: var(--offset-x);
+  background-position-y: var(--offset-y);
+
+  background-size: calc(var(--grid-size) * 3)
+    calc(var(--grid-size) * 3);
+
+  margin: 0;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  overflow: hidden;
+
+  /* Variables */
+  --offset-x: 0px;
+  --offset-y: 0px;
+  --grid-size: 15px;
+}
