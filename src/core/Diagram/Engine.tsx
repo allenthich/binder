@@ -16,6 +16,8 @@ import createEngine, {
 // import CommandManager from './Command/CommandManager';
 // import States from './states/States';
 
+import JsonNodeFactory from '../../components/Node/Json/Factory';
+
 export default class DiagramEngine {
   components?: Array<any>;
   areShortcutsAllowed?: any;
@@ -70,8 +72,10 @@ export default class DiagramEngine {
 
     // this.engine.getPortFactories().registerFactory(new PortFactory());
     // this.engine.getLinkFactories().registerFactory(new LinkFactory());
+    this.engine.getNodeFactories().registerFactory(new JsonNodeFactory() as any);
+    this.engine.getNodeFactories().registerFactory(new JsonNodeFactory());
 
-    // this.registerComponents();
+    this.registerComponents();
   };
 
   initializeModel = () => {
@@ -177,9 +181,11 @@ export default class DiagramEngine {
    */
   handleComponentDrop = (event: any, component: any) => {
     // Detect Component model
-    // const { Model } = this.components.find(
-    //   c => c.type === component.type,
-    // );
+    const { Model } = this.components.find(
+      c => c.type === component.type,
+    );
+
+    // const Model = comp.generateModel();
 
     const getSnappedRelativeMousePoint = (event: any) => {
       const { x, y } = this.engine.getRelativeMousePoint(event);
@@ -193,8 +199,9 @@ export default class DiagramEngine {
       ? getSnappedRelativeMousePoint(event)
       : new Point(0, 0);
 
-    // const node = new Model(component.type, component.configurations);
-    const node = new DefaultNodeModel(component.type, component.color);
+    const node = new Model(component.type, component.configurations);
+    // const node = new DefaultNodeModel(component.type, component.color);
+    // const node = comp.generateModel();
     this.model.addNode(node);
     node.setPosition(point);
 

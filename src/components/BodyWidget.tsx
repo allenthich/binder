@@ -5,7 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box, Grid } from '@material-ui/core';
 import { LSideBarWidget } from './LSideBarWidget';
 import { RSideBarWidget } from './RSideBarWidget';
-import createEngine, { DiagramEngine, DiagramModel, DefaultNodeModel, DefaultLinkModel } from '@projectstorm/react-diagrams';
 
 export const BodyWidget = (props: any) => {
   const useCanvasStyles = makeStyles({
@@ -79,25 +78,10 @@ export const BodyWidget = (props: any) => {
           id='canvasWrapper'
           className={canvasClasses.root}
           onDrop={(event) => {
-            var data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
-            // debugger;
-            // var nodesCount = _.keys(props.engine.getModel().getNodes()).length;
+            const data = event.dataTransfer.getData('storm-diagram-node');
+            const component = JSON.parse(data);
 
-            // var node: DefaultNodeModel = null;
-            // if (data.type === 'in') {
-            //   node = new DefaultNodeModel('Node ' + (nodesCount + 1), 'rgb(192,255,0)');
-            //   node.addInPort('In');
-            // } else {
-            //   node = new DefaultNodeModel('Node ' + (nodesCount + 1), 'rgb(0,192,255)');
-            //   node.addOutPort('Out');
-            // }
-            // var point = props.engine.getRelativeMousePoint(event);
-            // node.setPosition(point);
-            // props.engine.getModel().addNode(node);
-            // props.forceUpdate();
-            // props.engine.repaint()
-            debugger;
-            props.engine.handleComponentDrop(event, data);
+            props.engine.handleComponentDrop(event, component);
           }}
           onDragOver={(event) => {
             event.preventDefault();

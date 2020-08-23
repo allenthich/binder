@@ -33,7 +33,8 @@ export const TrayItem = (props: TrayItemProps) => {
       color={props.color}
       draggable={true}
       onDragStart={(event) => {
-        event.dataTransfer.setData('storm-diagram-node', JSON.stringify(props.model));
+        const data = JSON.stringify(props.model.serialize());
+        event.dataTransfer.setData('storm-diagram-node', data);
       }}
       className={classes.root}>
         {props.name}

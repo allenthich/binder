@@ -1,9 +1,12 @@
-import { JsonNodeFactory } from './Factory';
-import { JsonNodeModel } from './Model';
-import { JsonNodeWidget } from './Widget';
+import model from './Model';
+import widget from './Widget';
 
-export {
-  JsonNodeFactory,
-  JsonNodeModel,
-  JsonNodeWidget,
-};
+import { Component } from '../../../core';
+
+export default new Component({
+  type: 'Json',
+  name: 'Json',
+  description: 'Create a Json object',
+  model,
+  widget,
+});

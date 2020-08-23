@@ -3,7 +3,7 @@ import { DiagramEngine, PortWidget } from '@projectstorm/react-diagrams-core';
 import { JsonNodeModel } from './Model';
 
 export interface JsonNodeWidgetProps {
-	node: JsonNodeModel;
+	model: JsonNodeModel;
 	engine: DiagramEngine;
 }
 
@@ -18,14 +18,16 @@ export class JsonNodeWidget extends Component<JsonNodeWidgetProps, JsonNodeWidge
 	render() {
 		return (
 			<div className="custom-node">
-				<PortWidget engine={this.props.engine} port={this.props.node.getPort('in')}>
+				<PortWidget engine={this.props.engine} port={this.props.model.getPort('in')}>
 					<div className="circle-port" />
 				</PortWidget>
-				<PortWidget engine={this.props.engine} port={this.props.node.getPort('out')}>
+				<PortWidget engine={this.props.engine} port={this.props.model.getPort('out')}>
 					<div className="circle-port" />
 				</PortWidget>
-				<div className="custom-node-color" style={{ backgroundColor: this.props.node.color }} />
+				<div className="custom-node-color" style={{ backgroundColor: this.props.model.color }} />
 			</div>
 		);
 	}
 }
+
+export default JsonNodeWidget;

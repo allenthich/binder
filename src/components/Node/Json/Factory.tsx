@@ -6,14 +6,16 @@ import { DiagramEngine } from '@projectstorm/react-diagrams-core';
 
 export class JsonNodeFactory extends AbstractReactFactory<JsonNodeModel, DiagramEngine> {
 	constructor() {
-		super('json-custom-node');
+		super('Json');
 	}
 
 	generateModel(initialConfig: any) {
-		return new JsonNodeModel();
+		return new JsonNodeModel(initialConfig);
 	}
 
 	generateReactWidget(event: any): JSX.Element {
 		return <JsonNodeWidget engine={this.engine as DiagramEngine} node={event.model} />;
 	}
 }
+
+export default JsonNodeFactory;

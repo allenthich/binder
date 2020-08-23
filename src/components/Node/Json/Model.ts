@@ -11,7 +11,7 @@ export class JsonNodeModel extends NodeModel {
 	constructor(options: JsonNodeModelOptions = {}) {
 		super({
 			...options,
-			type: 'json-custom-node'
+			type: 'Json'
 		});
 		this.color = options.color || 'red';
 
@@ -42,3 +42,5 @@ export class JsonNodeModel extends NodeModel {
 		this.color = ob.color;
 	}
 }
+
+export default JsonNodeModel;
