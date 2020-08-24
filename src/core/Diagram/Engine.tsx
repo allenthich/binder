@@ -199,7 +199,7 @@ export default class DiagramEngine {
       ? getSnappedRelativeMousePoint(event)
       : new Point(0, 0);
 
-    const node = new Model(component.type, component.configurations);
+    const node = new Model(component, component.configurations);
     // const node = new DefaultNodeModel(component.type, component.color);
     // const node = comp.generateModel();
     this.model.addNode(node);

@@ -1,5 +1,6 @@
 import { Point } from '@projectstorm/geometry';
 import { NodeModel } from '@projectstorm/react-diagrams';
+import { BasePositionModelOptions } from '@projectstorm/react-canvas-core';
 
 import PortModel from './Port/PortModel';
 
@@ -8,9 +9,15 @@ const getPort = (port: any) => {
   return new PortModel({ name: port });
 };
 
+export interface BaseOptions extends BasePositionModelOptions {
+  name?: string;
+  color?: string;
+}
+
 export default class BaseModel extends NodeModel {
+  options: BaseOptions;
   configurations: any;
-  constructor(options: any, configurations: any) {
+  constructor(options: BaseOptions = {}, configurations: any = {}) {
     super(options);
 
     this.initialize();
@@ -105,4 +112,8 @@ export default class BaseModel extends NodeModel {
   onSimulationStop() {}
 
   step() {}
+
+  getOptions() : BaseOptions {
+    return this.options;
+  }
 }
