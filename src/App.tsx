@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { HeaderWidget } from './components/HeaderWidget';
 import { BodyWidget } from './components/BodyWidget';
 import { Grid } from '@material-ui/core';
 import './App.css';
-import createEngine, { DiagramModel, DefaultNodeModel, DefaultLinkModel } from '@projectstorm/react-diagrams';
 import components from './components/Node';
 import { DiagramEngine } from './core';
 

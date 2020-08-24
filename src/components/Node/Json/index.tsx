@@ -1,5 +1,5 @@
-import model from './Model';
-import widget from './Widget';
+import model from './JsonModel';
+import widget from './JsonWidget';
 
 import { Component } from '../../../core';
 

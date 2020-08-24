@@ -21,7 +21,7 @@ export default class Component extends AbstractReactFactory {
     widget,
     icon,
   }: {
-    type?: any,
+    type?: string,
     name?: any,
     description?: any,
     group?: any,

@@ -16,7 +16,7 @@ import createEngine, {
 // import CommandManager from './Command/CommandManager';
 // import States from './states/States';
 
-import JsonNodeFactory from '../../components/Node/Json/Factory';
+import JsonNodeFactory from '../../components/Node/Json/JsonFactory';
 
 export default class DiagramEngine {
   components?: Array<any>;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { JsonNodeModel } from './Model';
-import { JsonNodeWidget } from './Widget';
+import { JsonNodeModel } from './JsonModel';
+import { JsonNodeWidget } from './JsonWidget';
 import { AbstractReactFactory } from '@projectstorm/react-canvas-core';
 import { DiagramEngine } from '@projectstorm/react-diagrams-core';
 
@@ -10,11 +10,11 @@ export class JsonNodeFactory extends AbstractReactFactory<JsonNodeModel, Diagram
 	}
 
 	generateModel(initialConfig: any) {
-		return new JsonNodeModel(initialConfig);
+		return new JsonNodeModel();
 	}
 
 	generateReactWidget(event: any): JSX.Element {
-		return <JsonNodeWidget engine={this.engine as DiagramEngine} node={event.model} />;
+		return <JsonNodeWidget engine={this.engine as DiagramEngine} model={event.model} />;
 	}
 }
 

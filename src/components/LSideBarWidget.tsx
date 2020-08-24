@@ -1,7 +1,7 @@
 import React from 'react';
 import { ResizableSideBar, ResizableSideBarProps } from './UI/SideBar';
 import { TrayItem } from './UI/TrayItem';
-import JsonNodeModel from './Node/Json/Model';
+import JsonNodeModel from './Node/Json/JsonModel';
 
 export const LSideBarWidget = (props: ResizableSideBarProps) => {
   const jsonNode = new JsonNodeModel({

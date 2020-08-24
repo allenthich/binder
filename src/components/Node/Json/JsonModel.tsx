@@ -1,29 +1,30 @@
-import { DiagramEngine, NodeModel, DefaultPortModel } from '@projectstorm/react-diagrams';
 import { BaseModelOptions } from '@projectstorm/react-canvas-core';
+import BaseModel from '../../../core/BaseModel';
+import PortModel from '../../../core/Port/PortModel';
 
 export interface JsonNodeModelOptions extends BaseModelOptions {
 	color?: string;
 }
 
-export class JsonNodeModel extends NodeModel {
+export class JsonNodeModel extends BaseModel {
 	color: string;
 
 	constructor(options: JsonNodeModelOptions = {}) {
 		super({
 			...options,
 			type: 'Json'
-		});
+		}, {});
 		this.color = options.color || 'red';
 
 		// setup an in and out port
-		this.addPort(
-			new DefaultPortModel({
+		this.addInputPort(
+			new PortModel({
 				in: true,
 				name: 'in'
 			})
 		);
-		this.addPort(
-			new DefaultPortModel({
+		this.addOutputPort(
+			new PortModel({
 				in: false,
 				name: 'out'
 			})
