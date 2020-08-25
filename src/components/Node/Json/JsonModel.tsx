@@ -1,6 +1,13 @@
 import { BaseModelOptions } from '@projectstorm/react-canvas-core';
-import BaseModel from '../../../core/BaseModel';
-import PortModel from '../../../core/Port/PortModel';
+import { BaseModel } from '../../../core/BaseModel';
+import { PortModel} from '../../../core/Port/PortModel';
+
+import { BasePositionModelOptions, DeserializeEvent } from '@projectstorm/react-canvas-core';
+
+export interface DefaultNodeModelOptions extends BasePositionModelOptions {
+	name?: string;
+	color?: string;
+}
 
 export interface JsonNodeModelOptions extends BaseModelOptions {
 	color?: string;
@@ -9,26 +16,23 @@ export interface JsonNodeModelOptions extends BaseModelOptions {
 export class JsonNodeModel extends BaseModel {
 	color: string;
 
-	constructor(options: JsonNodeModelOptions = {}) {
+	constructor(name: string, color: string);
+	constructor(options?: DefaultNodeModelOptions);
+	constructor(options: any = {}, color?: string) {
+		if (typeof options === 'string') {
+			options = {
+				name: options,
+				color: color
+			};
+		}
 		super({
-			...options,
-			type: 'Json'
-		}, {});
-		this.color = options.color || 'red';
-
-		// setup an in and out port
-		this.addInputPort(
-			new PortModel({
-				in: true,
-				name: 'in'
-			})
-		);
-		this.addOutputPort(
-			new PortModel({
-				in: false,
-				name: 'out'
-			})
-		);
+			type: 'default',
+			name: 'Untitled',
+			color: 'rgb(0,192,255)',
+			...options
+		});
+		this.addInputPort('in');
+		this.addOutputPort('out');
 	}
 
 	serialize() {
@@ -43,5 +47,3 @@ export class JsonNodeModel extends BaseModel {
 		this.color = ob.color;
 	}
 }
-
-export default JsonNodeModel;

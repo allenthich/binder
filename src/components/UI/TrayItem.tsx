@@ -3,7 +3,7 @@ import { Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 export interface TrayItemProps {
-	model: any;
+	modelType: any;
 	color?: string;
 	name: string;
 	background?: string;
@@ -33,7 +33,8 @@ export const TrayItem = (props: TrayItemProps) => {
       color={props.color}
       draggable={true}
       onDragStart={(event) => {
-        const data = JSON.stringify(props.model.serialize());
+        const component = props.modelType
+        const data = JSON.stringify(component);
         event.dataTransfer.setData('storm-diagram-node', data);
       }}
       className={classes.root}>

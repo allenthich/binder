@@ -96,5 +96,3 @@ export class JsonNodeWidget extends Component<JsonNodeWidgetProps, JsonNodeWidge
 	// 	);
 	// }
 }
-
-export default JsonNodeWidget;
