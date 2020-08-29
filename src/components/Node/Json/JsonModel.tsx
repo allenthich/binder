@@ -28,7 +28,7 @@ export class JsonNodeModel extends BaseModel {
 		super({
 			type: 'default',
 			name: 'Untitled',
-			color: 'rgb(0,192,255)',
+			color: 'rgb(255,255,255)',
 			...options
 		});
 		this.addInputPort('in');

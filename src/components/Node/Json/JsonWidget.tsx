@@ -5,6 +5,8 @@ import { JsonNodeModel } from './JsonModel';
 import * as _ from 'lodash';
 import { DefaultPortLabel } from '@projectstorm/react-diagrams-defaults';
 import styled from '@emotion/styled';
+import { Port } from '../../../core/Port/Port';
+import { DataItem } from '../../NodeElement/DataItem';
 
 export interface JsonNodeWidgetProps {
 	model: JsonNodeModel;
@@ -36,7 +38,7 @@ flex-grow: 1;
 padding: 5px 5px;
 `;
 
-export const Ports = styled.div`
+export const DataContent = styled.div`
 display: flex;
 background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
 `;
@@ -61,9 +63,46 @@ export class JsonNodeWidget extends Component<JsonNodeWidgetProps, JsonNodeWidge
 		this.state = {};
 	}
 
+	// Notes: Given a JSON data object, create a widget corresponding to the data
+
 	generatePort = (port: any) => {
-		return <DefaultPortLabel engine={this.props.engine} port={port} key={port.getID()} />;
+		return <Port engine={this.props.engine} port={port} key={port.getID()} />;
 	};
+
+	generateDataItem = (data: String | Number | Object | Array<any>) : any => {
+		const dataType = Array.isArray(data) ? "array" : typeof data
+		//  Base case
+		// if (dataType === "string" || dataType === "number") {
+		return (
+			<DataItem
+				type={dataType}
+				name="keyName" 
+				data={data}
+			/>
+		)
+		// } else if (dataType === "array" || dataType === "object") {
+		// 	// Recur with subset of data
+		// 	// Iterate with array
+		// 	// Entry for object
+			
+		// 	return this.generateDataItem(data)
+		// }
+
+	}
+
+	createNodeElementsFromData = () => {
+		const exampleData = [
+			{
+				"id": "1",
+				"value": "big potato"
+			}, {
+				"id": "2",
+				"value": "little potato"
+			}
+		]
+		// Traverse data and create DataItems
+		return this.generateDataItem(exampleData);
+	}
 
 	render() {
 		return (
@@ -74,10 +113,13 @@ export class JsonNodeWidget extends Component<JsonNodeWidgetProps, JsonNodeWidge
 				<Title>
 					<TitleName>{this.props.model.getOptions().name}</TitleName>
 				</Title>
-				<Ports>
-					<PortsContainer>{_.map(this.props.model.getInputPorts(), this.generatePort)}</PortsContainer>
-					<PortsContainer>{_.map(this.props.model.getOutputPorts(), this.generatePort)}</PortsContainer>
-				</Ports>
+				
+				<DataContent>
+					{this.createNodeElementsFromData()}
+					{/* {props.port.isInput()} */}
+					{/* <PortsContainer className='portsContainer'>{_.map(this.props.model.getInputPorts(), this.generatePort)}</PortsContainer> */}
+					{/* <PortsContainer className='portsContainer'>{_.map(this.props.model.getOutputPorts(), this.generatePort)}</PortsContainer> */}
+				</DataContent>
 			</Node>
 		);
 	}

@@ -119,4 +119,27 @@ body,
   --offset-x: 0px;
   --offset-y: 0px;
   --grid-size: 15px;
+
+  --background: #eee;
+
+  --link-unselected: gray;
+  --link-selected: #3ec1ff;
+  --link-width: 3;
+
+  --value-on: #13e613;
+  --value-off: #069206;
+  --value-error: #c80a0a;
+
+  --port-unconnected: #ddd;
+  --port-hover: var(--link-selected);
+  --port-connected-border: #4f4f4f;
+  --port-unconnected-border: #333;
+  --port-width: 2px;
+
+  --border-selected: rgba(115,190,255,0.95);
+  --border-unselected: #598897;
+  --border-width: 2;
+
+  --body-unselected: rgba(115, 190, 255, 0.95);
+  --body-selected: rgba(115, 190, 255, 0.5);
 }

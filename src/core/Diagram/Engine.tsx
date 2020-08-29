@@ -17,6 +17,7 @@ import createEngine, {
 // import States from './states/States';
 
 import JsonNodeFactory from '../../components/Node/Json/JsonFactory';
+import PortFactory from '../Port/PortFactory';
 
 export default class DiagramEngine {
   components?: Array<any>;
@@ -70,7 +71,7 @@ export default class DiagramEngine {
     //     .registerAction(new Action(this.areShortcutsAllowed)),
     // );
 
-    // this.engine.getPortFactories().registerFactory(new PortFactory());
+    this.engine.getPortFactories().registerFactory(new PortFactory());
     // this.engine.getLinkFactories().registerFactory(new LinkFactory());
     this.engine.getNodeFactories().registerFactory(new JsonNodeFactory() as any);
     this.engine.getNodeFactories().registerFactory(new JsonNodeFactory());
@@ -99,11 +100,13 @@ export default class DiagramEngine {
     //3-A) create a default node
     var node1 = new DefaultNodeModel('Node 1', 'rgb(0,192,255)');
     let port = node1.addOutPort('Out');
+    let port3 = node1.addOutPort('Out2');
     node1.setPosition(100, 100);
 
     //3-B) create another default node
     var node2 = new DefaultNodeModel('Node 2', 'rgb(192,255,0)');
     let port2 = node2.addInPort('In');
+    let port4 = node2.addInPort('In2');
     node2.setPosition(400, 100);
 
     // link the ports
