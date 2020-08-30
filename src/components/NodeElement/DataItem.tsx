@@ -5,8 +5,8 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import styled from '@emotion/styled';
-import { TextInput } from './InputItem';
-import { Accordion } from './Accordion';
+import { RecursiveTreeView } from './TreeView';
+import { memo } from 'react';
 
 type JsonData = string | number | Array<any> | Object;
 
@@ -28,26 +28,10 @@ export const Label = styled.div`
 `;
 
 
-export const DataItem = (props: NodeElementDataItemProps) => {
-  const generateDataComponent = (value: any, indexKey?: string | number) => {
-    const dataType = typeof value
-
-    // Base case: string/number
-    if (dataType === "string" || dataType === "number") {
-      return <TextInput data={value} key={indexKey} />
-		} else if (Array.isArray(value) || dataType === "object") {
-      return (
-        <Accordion type={dataType}>
-          {/* This should be creating accordion items */}
-          {_.map(value, generateDataComponent)}
-        </Accordion>
-      )
-		}
-  }
-
+export const DataItem = memo((props: NodeElementDataItemProps) => {
   return (
     <DataItemContainer>
-      {generateDataComponent(props.data)}
+      <RecursiveTreeView data={props.data} />
     </DataItemContainer>
   );
-}
+})

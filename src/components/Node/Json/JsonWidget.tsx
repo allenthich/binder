@@ -27,20 +27,33 @@ border: solid 2px ${(p) => (p.selected ? 'rgb(0,192,255)' : 'black')};
 `;
 
 export const Title = styled.div`
-background: rgba(0, 0, 0, 0.3);
-display: flex;
-white-space: nowrap;
-justify-items: center;
+	background: rgba(0, 0, 0, 0.5);
+	padding: 0 1em;
+	display: flex;
+	white-space: nowrap;
+	justify-items: center;
 `;
 
 export const TitleName = styled.div`
 flex-grow: 1;
 padding: 5px 5px;
 `;
+export const SubTitle = styled.div`
+	background: rgba(0, 0, 0, 0.5);
+	padding: 0 1em;
+	display: flex;
+	white-space: nowrap;
+	justify-items: center;
+`;
+
+export const SubTitleName = styled.div`
+flex-grow: 1;
+padding: 5px 5px;
+`;
 
 export const DataContent = styled.div`
-display: flex;
-background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
+	display: flex;
+	padding: 0 2em;
 `;
 
 export const PortsContainer = styled.div`
@@ -71,8 +84,6 @@ export class JsonNodeWidget extends Component<JsonNodeWidgetProps, JsonNodeWidge
 
 	generateDataItem = (data: String | Number | Object | Array<any>) : any => {
 		const dataType = Array.isArray(data) ? "array" : typeof data
-		//  Base case
-		// if (dataType === "string" || dataType === "number") {
 		return (
 			<DataItem
 				type={dataType}
@@ -80,18 +91,14 @@ export class JsonNodeWidget extends Component<JsonNodeWidgetProps, JsonNodeWidge
 				data={data}
 			/>
 		)
-		// } else if (dataType === "array" || dataType === "object") {
-		// 	// Recur with subset of data
-		// 	// Iterate with array
-		// 	// Entry for object
-			
-		// 	return this.generateDataItem(data)
-		// }
-
 	}
 
 	createNodeElementsFromData = () => {
-		const exampleData = [
+		const exampleData =	{
+			"id": "1",
+			"value": "big potato"
+		}
+		const exampleData1 = [
 			{
 				"id": "1",
 				"value": "big potato"
@@ -100,11 +107,67 @@ export class JsonNodeWidget extends Component<JsonNodeWidgetProps, JsonNodeWidge
 				"value": "little potato"
 			}
 		]
+		const exampleData2 = {
+			"nested": {
+				"nested1": [
+					"abc",
+					"def"
+				]
+			},
+			"id": "internal",
+			"nested2": {
+				"id": "2",
+				"value": "little potato",
+				"neste2": {
+					"tested": "woo"
+				}
+			},
+			"testing1": "data",
+			"testing2": "data",
+			"testing3": "data",
+			"testing4": "data",
+			"testing5": "data",
+			"testing6": "data",
+			"testing7": "data",
+			"testing8": "data",
+			"testing9": "data",
+			"testing10": "data",
+			"testing11": "data",
+			"testing12": "data",
+			"testing13": "data",
+			"testing14": "data",
+			"testing15": "data",
+			"testing16": "data",
+			"testing17": "data",
+			"testing18": "data",
+			"testing19": "data",
+			"testing20": "data",
+			"testing21": "data",
+			"testing22": "data"
+		}
+		const exampleData3 = {
+			"nested": {
+				"nested2": [
+					"abc",
+					"def"
+				]
+			},
+		}
+		// This causes max recursion stack due to duplicate nested keys
+		const exampleData5 = {
+			"nested": {
+				"nested": [
+					"abc",
+					"def"
+				]
+			},
+		}
 		// Traverse data and create DataItems
-		return this.generateDataItem(exampleData);
+		return this.generateDataItem(exampleData2);
 	}
 
 	render() {
+		const nodeType = this.props.model.getOptions().dataType
 		return (
 			<Node
 				data-default-node-name={this.props.model.getOptions().name}
@@ -113,6 +176,11 @@ export class JsonNodeWidget extends Component<JsonNodeWidgetProps, JsonNodeWidge
 				<Title>
 					<TitleName>{this.props.model.getOptions().name}</TitleName>
 				</Title>
+				{ nodeType
+					&& <SubTitle>
+						<SubTitleName>{nodeType}</SubTitleName>
+					</SubTitle>
+				}
 				
 				<DataContent>
 					{this.createNodeElementsFromData()}
@@ -123,18 +191,4 @@ export class JsonNodeWidget extends Component<JsonNodeWidgetProps, JsonNodeWidge
 			</Node>
 		);
 	}
-
-	// render() {
-	// 	return (
-	// 		<div className="custom-node">
-	// 			<PortWidget engine={this.props.engine} port={this.props.model.getPort('in')}>
-	// 				<div className="circle-port" />
-	// 			</PortWidget>
-	// 			<PortWidget engine={this.props.engine} port={this.props.model.getPort('out')}>
-	// 				<div className="circle-port" />
-	// 			</PortWidget>
-	// 			<div className="custom-node-color" style={{ backgroundColor: this.props.model.color }} />
-	// 		</div>
-	// 	);
-	// }
 }

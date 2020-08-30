@@ -12,6 +12,7 @@ const getPort = (port: any) => {
 export interface BaseOptions extends BaseModelOptions {
   name?: string;
   color?: string;
+	dataType?: string;
 }
 
 export class BaseModel extends NodeModel {

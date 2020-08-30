@@ -15,7 +15,7 @@ export const LSideBarWidget = (props: ResizableSideBarProps) => {
       minWidth="1"
     >
       <div className='content'>
-        <TrayItem modelType={{ type: 'Json' }} name="Json Node" color="rgb(192,255,0)" />
+        <TrayItem modelType={{ type: 'Json', name: 'Json Node', dataType: 'Array' }} name="Json Node" color="rgb(192,255,0)" />
         <TrayItem modelType={{ type: 'out', color: 'rgb(0,192,255)' }} name="Out Node" color="rgb(0,192,255)" />
       </div>
     </ResizableSideBar>

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Accordion = (props: any) => {
   const classes = useStyles();
-  const createAccordionItem = (child: any) => {
+  const createAccordionItem = () => {
     return (
       <MuiAccordion>
         <AccordionSummary
@@ -29,17 +29,17 @@ export const Accordion = (props: any) => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography className={classes.heading}>props.type</Typography>
+          <Typography className={classes.heading}>{props.type}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {child}
+         {_.map(props.children)}
         </AccordionDetails>
       </MuiAccordion>
     )
   }
   return (
     <div className={classes.root}>
-      {_.map(props.children, createAccordionItem)}
+      {createAccordionItem()}
     </div>
   );
 }
