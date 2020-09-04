@@ -11,7 +11,7 @@ import createEngine, {
 // import DeleteAction from './actions/DeleteAction';
 // import DuplicateAction from './actions/DuplicateAction';
 // import UndoRedoAction from './actions/UndoRedoAction';
-// import ZoomAction from './actions/ZoomAction';
+import ZoomAction from './actions/ZoomAction';
 // import commandHandlers from './Command/commandHandlers';
 // import CommandManager from './Command/CommandManager';
 // import States from './states/States';
@@ -58,18 +58,18 @@ export default class DiagramEngine {
     //   .getStateMachine()
     //   .pushState(new States(this.showSnackbar));
 
-    // const actions = [
+    const actions = [
     //   DuplicateAction,
     //   ClipboardAction,
     //   DeleteAction,
     //   UndoRedoAction,
-    //   ZoomAction,
-    // ];
-    // actions.forEach(Action =>
-    //   this.engine
-    //     .getActionEventBus()
-    //     .registerAction(new Action(this.areShortcutsAllowed)),
-    // );
+      ZoomAction,
+    ];
+    actions.forEach(Action =>
+      this.engine
+        .getActionEventBus()
+        .registerAction(new Action()),
+    );
 
     this.engine.getPortFactories().registerFactory(new PortFactory());
     // this.engine.getLinkFactories().registerFactory(new LinkFactory());
